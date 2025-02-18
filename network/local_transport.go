@@ -6,16 +6,16 @@ import (
 )
 
 type LocalTransport struct {
-	addr      NetAddr
-	consumuch chan RPC
-	lock      sync.RWMutex
-	peers     map[NetAddr]*LocalTransport
+	addr      NetAddr                     // Endereço deste nó (ex: "LOCAL", "REMOTE")
+	consumuch chan RPC                    // Canal de recebimento de mensagens (buffer de 1024)
+	lock      sync.RWMutex                // Mutex para sincronização concorrente
+	peers     map[NetAddr]*LocalTransport // Mapa de peers conectados
 }
 
 func NewLocalTransport(addr NetAddr) Trasport {
 	return &LocalTransport{
 		addr:      addr,
-		consumuch: make(chan RPC, 1024),
+		consumuch: make(chan RPC, 1024), // Canal bufferizado para 1024 mensagens
 		peers:     make(map[NetAddr]*LocalTransport),
 	}
 }

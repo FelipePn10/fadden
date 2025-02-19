@@ -24,15 +24,23 @@ func (t *LocalTransport) Consume() <-chan RPC {
 	return t.consumuch
 }
 
+// Conecta dois transports para permitir comunicação.
+// Usa sync.RWMutex para garantir acesso seguro ao mapa peers.
+// Adiciona o peer ao mapa usando seu endereço como chave.
+// tr.(*LocalTransport) força que todos os peers sejam do mesmo tipo (LocalTransport).
 func (t *LocalTransport) Connect(tr Trasport) error {
 	t.lock.Lock()
 	defer t.lock.Unlock()
 
-	t.peers[tr.Addr()] = tr.(*LocalTransport)
+	t.peers[tr.Addr()] = tr.(*LocalTransport) // Asserção de tipo para LocalTransport
 
 	return nil
 }
 
+// Envia uma mensagem para um peer específico.
+// Verifica se o peer existe no mapa.
+// Se existir, envia um RPC para o canal consumuch do peer.
+// A mensagem inclui o endereço do remetente (From) e o conteúdo (Payload).
 func (t *LocalTransport) SendMessage(to NetAddr, payload []byte) error {
 	t.lock.RLock()
 	defer t.lock.RUnlock()
@@ -49,6 +57,8 @@ func (t *LocalTransport) SendMessage(to NetAddr, payload []byte) error {
 	return nil
 }
 
+// Expõe o canal de mensagens para que o servidor possa ler.
+// O servidor lê do canal para processar mensagens recebidas.
 func (t *LocalTransport) Addr() NetAddr {
 	return t.addr
 }

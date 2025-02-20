@@ -12,27 +12,30 @@ type LocalTransport struct {
 	peers     map[NetAddr]*LocalTransport // Mapa de peers conectados
 }
 
+// Cria um novo LocalTransport com um endereço específico.
+// Inicializa o canal consumuch com buffer de 1024 mensagens.
+// Inicializa o mapa de peers.
 func NewLocalTransport(addr NetAddr) Trasport {
 	return &LocalTransport{
 		addr:      addr,
-		consumuch: make(chan RPC, 1024), // Canal bufferizado para 1024 mensagens
-		peers:     make(map[NetAddr]*LocalTransport),
+		consumuch: make(chan RPC, 1024),              // Canal bufferizado para 1024 mensagens
+		peers:     make(map[NetAddr]*LocalTransport), // Mapa de peers conectados
 	}
 }
 
 func (t *LocalTransport) Consume() <-chan RPC {
 	return t.consumuch
-}
+} // Retorna o canal de mensagens para que o servidor possa ler.
 
 // Conecta dois transports para permitir comunicação.
 // Usa sync.RWMutex para garantir acesso seguro ao mapa peers.
 // Adiciona o peer ao mapa usando seu endereço como chave.
 // tr.(*LocalTransport) força que todos os peers sejam do mesmo tipo (LocalTransport).
 func (t *LocalTransport) Connect(tr Trasport) error {
-	t.lock.Lock()
+	t.lock.Lock() // Bloqueia o mutex para evitar concorrência
 	defer t.lock.Unlock()
 
-	t.peers[tr.Addr()] = tr.(*LocalTransport) // Asserção de tipo para LocalTransport
+	t.peers[tr.Addr()] = tr.(*LocalTransport) // Adiciona o peer ao mapa de peers usando o endereço como chave. (tr.(*LocalTransport) força que todos os peers sejam do mesmo tipo (LocalTransport))
 
 	return nil
 }

@@ -5,7 +5,6 @@ Este repositório contém uma implementação básica de uma blockchain desenvol
 ✅ Criação e estruturação de blocos;
 ✅ Validação da cadeia de blocos;
 ✅ Implementação de **Proof of Work (PoW)**;
-✅ Mineração e adição de novos blocos.
 
 O código está repleto de comentários explicativos para ajudar iniciantes a entender os **conceitos fundamentais de blockchain e como implementá-los em Go.**
 

@@ -1,49 +1,70 @@
 # Blockchain em Go (Golang)
 
-Este é um projeto de blockchain desenvolvido em Go (Golang) com o objetivo de aprender/melhorar desenvolvimento Web3, blockchain e criptografia. O projeto inclui uma implementação básica de uma blockchain, com funcionalidades como criação de blocos, validação da cadeia de blocos etc.
+Este repositório contém uma implementação básica de uma blockchain desenvolvida em **Go (Golang)**, com o objetivo de aprofundar conhecimentos em **Web3, blockchain e criptografia**. O projeto inclui funcionalidades essenciais, como:
 
-O código está repleto de comentários explicativos para ajudar iniciantes a entender os conceitos fundamentais de blockchain e como implementá-los em Go.
+✅ Criação e estruturação de blocos;
+✅ Validação da cadeia de blocos;
+✅ Implementação de **Proof of Work (PoW)**;
+✅ Mineração e adição de novos blocos.
 
-## 🚀 Começando
+O código está repleto de comentários explicativos para ajudar iniciantes a entender os **conceitos fundamentais de blockchain e como implementá-los em Go.**
 
-### Pré-requisitos
+---
+## 🚀 Como começar
 
-Antes de começar, você precisará ter o Go (versão mínima 1.19.0) instalado em sua máquina. Você pode baixar e instalar o Go a partir do [site oficial](https://golang.org/dl/).
+### 📌 Pré-requisitos
+Antes de iniciar, certifique-se de ter o **Go** instalado (versão mínima **1.19.0**). Você pode baixá-lo e instalá-lo através do site oficial: [Go Downloads](https://go.dev/dl/).
 
-### Clonando o repositório
+### 📥 Clonando o repositório
+Para obter o código-fonte, execute o seguinte comando no seu terminal:
 
-Para clonar o repositório, execute o seguinte comando no terminal:
-
+```sh
 git clone https://github.com/seu-usuario/seu-repositorio.git
 cd seu-repositorio
+```
 
-### Executando o projeto
+### ▶️ Executando o projeto
+Após clonar o repositório, navegue até a pasta do projeto e execute:
 
-Para executar o projeto, navegue até o diretório do projeto e execute o seguinte comando:
+```
+go run main.go
+```
 
-```go run main.go```
+Isso iniciará a blockchain, e os blocos começarão a ser minerados e adicionados à cadeia.
 
-Isso iniciará a blockchain e você verá os blocos sendo minerados e adicionados à cadeia.
+---
+## 📂 Estrutura do Projeto
 
-## 🧠 Estrutura do Projeto
-Aqui está uma visão geral da estrutura do projeto:
+O projeto está organizado da seguinte maneira:
 
-├── main.go                # Ponto de entrada do programa
-├── blockchain/            # Pacote contendo a lógica da blockchain
-│   ├── block.go           # Definição da estrutura do bloco e funcionalidades
-│   ├── blockchain.go      # Definição da estrutura da blockchain e funcionalidades
-│   └── proofofwork.go     # Implementação do algoritmo de proof-of-work (PoW)
-├── README.md              # Este arquivo
-└── go.mod                 # Arquivo de dependências do Go
+```
+📦 seu-repositorio
+├── 📜 main.go         # Ponto de entrada do programa
+├── 📂 blockchain/     # Pacote contendo a lógica da blockchain
+│   ├── 📜 block.go    # Definição da estrutura e funcionalidades do bloco
+│   ├── 📜 blockchain.go  # Definição da estrutura da blockchain
+│   └── 📜 proofofwork.go  # Implementação do algoritmo Proof of Work (PoW)
+├── 📜 README.md       # Documentação do projeto
+└── 📜 go.mod          # Gerenciamento de dependências do Go
+```
 
-- A ESTRUTURA IRÁ PASSAR POR VÁRIAS MUDANÇAS ATÉ A VERSÃO FINAL DO PROJETO, SEMPRE FIQUE ATENTO AS ATUALIZAÇÕES QUE O PROJETO POSSA TER!-
+⚠️ **Importante:** A estrutura do projeto poderá sofrer alterações até a versão final. Fique atento às atualizações!
 
-#### 🤝 Contribuindo
-Se você quiser contribuir para este projeto, sinta-se à vontade para abrir uma issue ou enviar um pull request. Todas as contribuições são bem-vindas!
+---
+## 🤝 Contribuindo
+Contribuições são sempre bem-vindas! Se você deseja sugerir melhorias ou relatar problemas, sinta-se à vontade para **abrir uma issue** ou enviar um **pull request**. 💡
 
-#### 📝 Licença
-Este projeto está licenciado sob a licença MIT. Consulte o arquivo LICENSE para obter mais detalhes.
+1. Faça um **fork** do projeto;
+2. Crie um **branch** com sua feature ou correção (`git checkout -b minha-feature`);
+3. Faça o **commit** das suas alterações (`git commit -m 'Adicionando minha feature'`);
+4. Faça um **push** para o branch (`git push origin minha-feature`);
+5. Abra um **Pull Request**.
 
-#### 🙏 Agradecimentos
-Este projeto foi inspirado em vários tutoriais e documentações sobre blockchain e Go.
-*Agradeço à comunidade AnthonyGG por compartilhar conhecimento e recursos.*
+---
+## 📜 Licença
+Este projeto está licenciado sob a **MIT License**. Consulte o arquivo [LICENSE](LICENSE) para mais informações.
+
+---
+## 🙌 Agradecimentos
+Este projeto foi inspirado por diversas documentações e tutoriais sobre **blockchain e Go**. Um agradecimento especial à comunidade **AnthonyGG** por compartilhar conhecimento e materiais valiosos. 🚀
+

@@ -35,11 +35,11 @@ type Signature struct {
 
 //	Assina dados usando a chave privada ECDSA.
 //
-// ecdsa.Sign: Gera os componentes r e s da assinatura.
+// Sign assina um hash (que deve ser o resultado do hash de uma mensagem maior) usando a chave privada, priv. Se o hash for maior que o comprimento de bits da ordem da curva da chave privada, o hash será truncado para esse comprimento. Ele retorna a assinatura como um par de inteiros. A maioria dos aplicativos deve usar [SignASN1] em vez de lidar diretamente com r, s.
 // rand.Reader: Garante que a geração da assinatura seja segura.
 func (k PrivateKey) Sign(data []byte) (*Signature, error) {
-	r, s, err := ecdsa.Sign(rand.Reader, k.key, data)
-	if err != nil { // Verifica se houve algum erro na geração da assinatura.
+	r, s, err := ecdsa.Sign(rand.Reader, k.key, data) // ecdsa.Sign: Gera os componentes r e s da assinatura.
+	if err != nil {                                   // Verifica se houve algum erro na geração da assinatura.
 		return nil, err
 	}
 

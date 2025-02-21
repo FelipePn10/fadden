@@ -39,14 +39,14 @@ type Signature struct {
 // rand.Reader: Garante que a geração da assinatura seja segura.
 func (k PrivateKey) Sign(data []byte) (*Signature, error) {
 	r, s, err := ecdsa.Sign(rand.Reader, k.key, data)
-	if err != nil {
+	if err != nil { // Verifica se houve algum erro na geração da assinatura.
 		return nil, err
 	}
 
-	return &Signature{
+	return &Signature{ // Retorna a assinatura gerada.
 		r: r,
 		s: s,
-	}, nil
+	}, nil // Retorna nil para o erro, indicando que a assinatura foi gerada com sucesso.
 }
 
 // Gera uma chave privada ECDSA usando a curva P-256 (secp256r1).

@@ -5,30 +5,39 @@ import (
 	"fmt"
 )
 
+// Address: Estrutura que representa um endereço.
+// Um endereço é uma representação compacta de uma chave pública.
 type Address [28]uint8
 
+// ToSlice: Converte o endereço em um slice de bytes.
+// Retorna um slice de bytes com 28 bytes.
 func (a Address) ToSlice() []byte {
-	b := make([]byte, 28)
-	for i := 0; i < 28; i++ {
-		b[i] = a[i]
+	b := make([]byte, 28)     // Cria um slice de bytes com 28 bytes.
+	for i := 0; i < 28; i++ { // Copia os bytes do endereço para o slice.
+		b[i] = a[i] // Copia o byte na posição i do endereço para a posição i do slice.
 	}
 	return b
 }
 
+// String: Converte o endereço em uma string hexadecimal.
+// Retorna uma string hexadecimal com 56 caracteres.
 func (a Address) String() string {
 	return hex.EncodeToString(a.ToSlice())
 }
 
+// AddressFromBytes: Converte um slice de bytes em um endereço.
+// Deve receber um slice de bytes com 28 bytes.
+// Retorna um endereço.
 func AddressFromBytes(b []byte) Address {
-	if len(b) != 28 {
+	if len(b) != 28 { // Verifica se o slice de bytes tem 28 bytes.
 		msg := fmt.Sprintf("given bytes with length %d should be 28", len(b))
-		panic(msg)
+		panic(msg) // Se não tiver 28 bytes, lança um erro.
 	}
 
-	var value [28]uint8
-	for i := 0; i < 28; i++ {
-		value[i] = b[i]
+	var value [28]uint8       // Cria um array de 28 bytes.
+	for i := 0; i < 28; i++ { // Copia os bytes do slice para o array.
+		value[i] = b[i] // Copia o byte na posição i do slice para a posição i do array.
 	}
 
-	return Address(value)
+	return Address(value) // Retorna o endereço.
 }

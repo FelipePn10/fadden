@@ -30,7 +30,7 @@ type PublicKey struct {
 // Estrutura que representa uma assinatura ECDSA, contendo os valores r e s.
 // Representa uma assinatura digital para validação.
 type Signature struct {
-	r, s *big.Int
+	r, s *big.Int // big.Int: Representa um número inteiro grande. É usado para armazenar os valores r e s da assinatura.
 }
 
 //	Assina dados usando a chave privada ECDSA.

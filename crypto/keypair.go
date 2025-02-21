@@ -33,8 +33,7 @@ type Signature struct {
 	r, s *big.Int // big.Int: Representa um número inteiro grande. É usado para armazenar os valores r e s da assinatura.
 }
 
-//	Assina dados usando a chave privada ECDSA.
-//
+// Assina dados usando a chave privada ECDSA.
 // Sign assina um hash (que deve ser o resultado do hash de uma mensagem maior) usando a chave privada, priv. Se o hash for maior que o comprimento de bits da ordem da curva da chave privada, o hash será truncado para esse comprimento. Ele retorna a assinatura como um par de inteiros. A maioria dos aplicativos deve usar [SignASN1] em vez de lidar diretamente com r, s.
 // rand.Reader: Garante que a geração da assinatura seja segura.
 func (k PrivateKey) Sign(data []byte) (*Signature, error) {
@@ -56,7 +55,7 @@ func GeneratePrivateKey() PrivateKey {
 		panic(err)
 	}
 
-	return PrivateKey{
+	return PrivateKey{ // Retorna a chave privada gerada.
 		key: key,
 	}
 }
@@ -87,7 +86,7 @@ func (k PublicKey) ToSlice() []byte {
 func (k PublicKey) Address() types.Address {
 	h := sha256.Sum256(k.ToSlice())
 
-	return types.AddressFromBytes(h[len(h)-28:])
+	return types.AddressFromBytes(h[len(h)-28:]) // Retorna o endereço derivado da chave pública. (28 bytes)
 }
 
 func (sig Signature) Verify(pubKey PublicKey, data []byte) bool { // Verifica se uma assinatura é válida para os dados e chave pública fornecidos.

@@ -93,10 +93,10 @@ func (b *Block) DecodeBinary(r io.Reader) error {
 		return err
 	}
 
-	for _, tx := range b.Transactions {
+	for _, tx := range b.Transactions { // Decodifica cada transação do bloco em binário e armazena em b.Transactions
 		if err := tx.DecodeBinary(r); err != nil {
 			return err
 		}
 	}
-	return nil
+	return nil // Retorna nil se não houver erros
 }

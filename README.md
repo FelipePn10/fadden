@@ -1,6 +1,6 @@
-# Blockchain em Go (Golang)
+# Blockchain modular em Go (Golang)
 
-Este repositório contém uma implementação básica de uma blockchain desenvolvida em **Go (Golang)**, com o objetivo de aprofundar conhecimentos em **Web3, blockchain e criptografia**. O projeto inclui funcionalidades essenciais, como:
+Este repositório contém uma implementação básica de uma blockchain modular desenvolvida em **Go (Golang)**, com o objetivo de aprofundar conhecimentos em **Web3, blockchain e criptografia**. O projeto inclui funcionalidades essenciais, como:
 
 ✅ Criação e estruturação de blocos;
 ✅ Validação da cadeia de blocos;

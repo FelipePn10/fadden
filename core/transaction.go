@@ -8,12 +8,13 @@ import (
 
 // Transaction: Estrutura que representa uma transação.
 type Transaction struct {
-	Data []byte // Dados brutos da transação
+	Data []byte // Dados da transação
 
 	PublicKey crypto.PublicKey  // Chave pública do remetente
-	Signature *crypto.Signature // Assinatura da transação
+	Signature *crypto.Signature // Guarda a assinatura digital da transação
 }
 
+// Assina a transação com uma chave privada.
 func (tx *Transaction) Sign(privKey crypto.PrivateKey) error {
 	sig, err := privKey.Sign(tx.Data)
 	if err != nil {
@@ -25,12 +26,13 @@ func (tx *Transaction) Sign(privKey crypto.PrivateKey) error {
 	return nil
 }
 
+// Valida se a transação foi assinada corretamente (se é legítima ou não).
 func (tx *Transaction) Verify() error {
 	if tx.Signature == nil {
 		return fmt.Errorf("transaction has no signature")
 	}
 
-	if tx.Signature.Verify(tx.PublicKey, tx.Data) {
+	if !tx.Signature.Verify(tx.PublicKey, tx.Data) {
 		return fmt.Errorf("invalid transaction signature")
 	}
 

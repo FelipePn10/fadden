@@ -40,12 +40,12 @@ func HashFromBytes(b []byte) Hash {
 		panic(msg)
 	}
 
-	var value [32]uint8
-	for i := 0; i < 32; i++ {
-		value[i] = b[i]
+	var value [32]uint8       // Cria um array de 32 bytes.
+	for i := 0; i < 32; i++ { // Copia os bytes do slice para o array.
+		value[i] = b[i] // Copia o byte na posição i do slice para a posição i do array.
 	}
 
-	return Hash(value)
+	return Hash(value) // Retorna o hash.
 }
 
 // Função que gera um slice de bytes aleatórios do tamanho especificado.

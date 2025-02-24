@@ -1,3 +1,6 @@
+// Esse arquivo contém a definição do tipo Address, que é um array de 28 bytes. A função ToSlice converte o endereço para um slice de bytes. A função String converte o endereço para uma string hexadecimal. A função AddressFromBytes cria um endereço a partir de um slice de bytes.
+// O arquivo também contém a definição de interfaces para codificação e decodificação. A interface Encoder define um método para serializar um objeto. A interface Decoder define um método para desserializar um objeto. Ambas utilizam tipos genéricos (T any) para permitir reutilização.
+
 package types
 
 import (

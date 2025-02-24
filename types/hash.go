@@ -1,3 +1,6 @@
+// Esse arquivo contém a definição do tipo Hash, que é um array de 32 bytes. A função IsZero verifica se o hash é zero. A função ToSlice converte o hash para um slice de bytes. A função String converte o hash para uma string. A função HashFromBytes cria um hash a partir de um slice de bytes. A função RandomBytes gera um slice de bytes aleatórios. A função RandomHash gera um hash aleatório.
+// O arquivo também contém a definição de interfaces para codificação e decodificação. A interface Encoder define um método para serializar um objeto. A interface Decoder define um método para desserializar um objeto. Ambas utilizam tipos genéricos (T any) para permitir reutilização.
+
 package types
 
 import (

@@ -43,6 +43,10 @@ func NewBlock(h *Header, txx []Transaction) *Block {
 	return &Block{Header: h, Transactions: txx}
 }
 
+func (b *Block) AddTransaction(tx *Transaction) {
+	b.Transactions = append(b.Transactions, *tx)
+}
+
 // Assina um Bloco - assina o cabeçalho do bloco usando uma chave privada
 // privKey.Sign(b.HeaderData()): Gera a assinatura criptográfica
 // b.Validator = privKey.PublicKey(): Armazena a chave pública do assinante
@@ -64,6 +68,12 @@ func (b *Block) Sign(privKey crypto.PrivateKey) error {
 func (b *Block) Verify() error {
 	if b.Signature == nil {
 		return fmt.Errorf("block has no signature")
+	}
+
+	for _, tx := range b.Transactions {
+		if err := tx.Verify(); err != nil {
+			return err
+		}
 	}
 
 	if !b.Signature.Verify(b.Validator, b.Header.Bytes()) {

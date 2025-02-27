@@ -1,5 +1,3 @@
-// Esse arquivo é responsável por definir a interface de comunicação entre os nós da rede.
-// A interface Transport define métodos para conectar nós, enviar mensagens e receber mensagens.
 package network
 
 type NetAddr string // Representa um endereço de rede. Ex: "LOCAL", "REMOTE" -> "192.168.1.1:3000"

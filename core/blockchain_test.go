@@ -37,6 +37,19 @@ func TestHasBlock(t *testing.T) {
 	assert.True(t, bc.HasBlock(0))
 }
 
+func TestGetHeader(t *testing.T) {
+	bc := newBlockChainGenesis(t)
+	lenBlocks := 1000
+
+	for i := 0; i < lenBlocks; i++ {
+		b := randomBlockWithSignature(t, uint32(i+1))
+		assert.Nil(t, bc.AddBlock(b))
+		header, err := bc.GetHeader(b.Height)
+		assert.Nil(t, err)
+		assert.Equal(t, header, b.Header)
+	}
+}
+
 func TestAddBlockToHeigh(t *testing.T) {
 	bc := newBlockChainGenesis(t)
 

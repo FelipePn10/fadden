@@ -20,6 +20,13 @@ type Header struct {
 	Height        uint32     // Indica a posição do bloco na blockchain
 }
 
+func (h *Header) Bytes() []byte {
+	buf := &bytes.Buffer{}
+	enc := gob.NewEncoder(buf)
+	enc.Encode(h)
+	return buf.Bytes()
+}
+
 // Block: Estrutura que representa um bloco.
 // O bloco contém um cabeçalho embutido (*Header), permitindo acesso direto aos seus campos:
 // Transactions, Validator, Signature e Hash
@@ -41,7 +48,7 @@ func NewBlock(h *Header, txx []Transaction) *Block {
 // b.Validator = privKey.PublicKey(): Armazena a chave pública do assinante
 // b.Signature = sig: Salva a assinatura gerada
 func (b *Block) Sign(privKey crypto.PrivateKey) error {
-	sig, err := privKey.Sign(b.HeaderData()) // Assina os dados do cabeçalho do bloco
+	sig, err := privKey.Sign(b.Header.Bytes()) // Assina os dados do cabeçalho do bloco
 	if err != nil {
 		return err
 	}
@@ -59,7 +66,7 @@ func (b *Block) Verify() error {
 		return fmt.Errorf("block has no signature")
 	}
 
-	if !b.Signature.Verify(b.Validator, b.HeaderData()) {
+	if !b.Signature.Verify(b.Validator, b.Header.Bytes()) {
 		return fmt.Errorf("block has invalid signature")
 	}
 
@@ -79,20 +86,9 @@ func (b *Block) Decode(r io.Reader, dec Decoder[*Block]) error {
 // Calcula o hash do bloco e armazena o resultado
 // Se o b.Hash já tiver um valor, ele é retornado imediatamente
 // Se for zero, usa um Hasher externo para calcular o hash do bloco
-func (b *Block) Hash(hasher Hasher[*Block]) types.Hash {
+func (b *Block) Hash(hasher Hasher[*Header]) types.Hash {
 	if b.hash.IsZero() {
-		b.hash = hasher.Hash(b)
+		b.hash = hasher.Hash(b.Header)
 	}
 	return b.hash
-}
-
-// Serializa (encode) o cabeçalho do bloco em um buffer de bytes
-// & usa o gob para transformar a estrutura Header em bytes
-func (b *Block) HeaderData() []byte {
-	buf := &bytes.Buffer{}
-	enc := gob.NewEncoder(buf)
-	if err := enc.Encode(b.Header); err != nil {
-		panic(err)
-	}
-	return buf.Bytes()
 }

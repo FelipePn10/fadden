@@ -36,3 +36,9 @@ func TestHasBlock(t *testing.T) {
 	bc := newBlockChainGenesis(t)
 	assert.True(t, bc.HasBlock(0))
 }
+
+func TestAddBlockToHeigh(t *testing.T) {
+	bc := newBlockChainGenesis(t)
+
+	assert.NotNil(t, bc.AddBlock(randomBlockWithSignature(t, 3)))
+}

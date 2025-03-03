@@ -3,6 +3,8 @@ package network
 import (
 	"fmt"
 	"time"
+
+	"github.com/FelipePn10/fadden/crypto"
 )
 
 // ServerOpts define as opções do servidor.
@@ -10,22 +12,25 @@ import (
 // Ex: LocalTransport, RemoteTransport
 type ServerOpts struct {
 	Transports []Trasport
+	PrivateKey *crypto.PrivateKey
 }
 
 // Server é a estrutura que representa um servidor.
 type Server struct {
-	ServerOpts               // Opções do servidor
-	rpcChan    chan RPC      // Canal central para receber mensagens de todos os transports
-	quitCh     chan struct{} // Canal para sinalizar parada do servidor
+	ServerOpts  // Opções do servidor
+	isValidator bool
+	rpcChan     chan RPC      // Canal central para receber mensagens de todos os transports
+	quitCh      chan struct{} // Canal para sinalizar parada do servidor
 }
 
 // NewServer cria um novo servidor com as opções especificadas.
 // Inicializa os canais rpcChan e quitCh.
 func NewServer(opts ServerOpts) *Server {
 	return &Server{ // Retorna um ponteiro para a estrutura Server
-		ServerOpts: opts,                   // Inicializa as opções do servidor
-		rpcChan:    make(chan RPC, 1024),   // Canal bufferizado para 1024 mensagens
-		quitCh:     make(chan struct{}, 1), // Canal bufferizado para 1 mensagem
+		ServerOpts:  opts, // Inicializa as opções do servidor
+		isValidator: opts.PrivateKey != nil,
+		rpcChan:     make(chan RPC, 1024),   // Canal bufferizado para 1024 mensagens
+		quitCh:      make(chan struct{}, 1), // Canal bufferizado para 1 mensagem
 	}
 }
 

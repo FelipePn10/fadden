@@ -20,6 +20,9 @@ type Header struct {
 	Height        uint32     // Indica a posição do bloco na blockchain
 }
 
+// O método bytes serializa o Header em bytes usando o formato gob,
+// um buffer em memória é usado para armazenar os dados serializados,
+// O resultado é um slice de bytes que pode ser usado para armazenamento ou trasmissão.
 func (h *Header) Bytes() []byte {
 	buf := &bytes.Buffer{}
 	enc := gob.NewEncoder(buf)

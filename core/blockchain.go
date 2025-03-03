@@ -2,14 +2,16 @@ package core
 
 import (
 	"fmt"
+	"sync"
 
 	"github.com/sirupsen/logrus"
 )
 
 type Blockchain struct { // Estrutura que representa a blockchain.
-	store     Storage   // Armazenamento dos blocos
-	headers   []*Header // Slice contendo os headers dos blocos da blockchain
-	validator Validator // Validação dos blocos antes de serem adicionados
+	store     Storage      // Armazenamento dos blocos
+	lock      sync.RWMutex //
+	headers   []*Header    // Slice contendo os headers dos blocos da blockchain
+	validator Validator    // Validação dos blocos antes de serem adicionados
 }
 
 // Inicializa o store indicando que os blocos serão armazenados em memória,
@@ -47,6 +49,9 @@ func (bc *Blockchain) GetHeader(height uint32) (*Header, error) {
 	if height > bc.Height() {
 		return nil, fmt.Errorf("given height (%d) too high", height)
 	}
+	bc.lock.Lock()
+	defer bc.lock.Unlock()
+
 	return bc.headers[height], nil
 }
 
@@ -59,6 +64,8 @@ func (bc *Blockchain) HasBlock(height uint32) bool {
 // [0, 1, 2, 3] -> 3 height
 // A altura da blockchain é o número total de blocos menos 1, pois os índices começam em zero.
 func (bc *Blockchain) Height() uint32 {
+	bc.lock.RLock()
+	defer bc.lock.RUnlock()
 	return uint32(len(bc.headers) - 1)
 }
 
@@ -66,7 +73,10 @@ func (bc *Blockchain) Height() uint32 {
 // Registra no log a altura e o hash do bloco adicionado.
 // Armazena o bloco no store.
 func (bc *Blockchain) addBlockWiothoutValidation(b *Block) error {
+	bc.lock.RLock()
 	bc.headers = append(bc.headers, b.Header)
+	bc.lock.Unlock()
+
 	logrus.WithFields(logrus.Fields{
 		"height": b.Height,
 		"hash":   b.Hash(BlockHasher{}),

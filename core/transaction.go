@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/FelipePn10/fadden/crypto"
+	"github.com/FelipePn10/fadden/types"
 )
 
 // Transaction: Estrutura que representa uma transação.
@@ -12,6 +13,10 @@ type Transaction struct {
 
 	From      crypto.PublicKey  // Chave pública do remetente
 	Signature *crypto.Signature // Guarda a assinatura digital da transação
+}
+
+func (tx *Transaction) Hash(h Hasher[*Transaction]) types.Hash {
+	return h.Hash(tx)
 }
 
 // Assina a transação com uma chave privada.

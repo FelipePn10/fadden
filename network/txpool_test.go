@@ -1,6 +1,7 @@
 package network
 
 import (
+	"strconv"
 	"testing"
 
 	"github.com/FelipePn10/fadden/core"
@@ -23,4 +24,15 @@ func TestTxPoolAddTx(t *testing.T) {
 
 	p.Flush()
 	assert.Equal(t, p.Len(), 0)
+}
+
+func TestSortTrasactions(t *testing.T) {
+	p := NewTxPool()
+	txLen := 1000
+
+	for i := 0; i < txLen; i++ {
+		tx := core.NewTransaction([]byte(strconv.FormatInt(int64(i), 10)))
+		assert.Nil(t, p.Add(tx))
+	}
+	assert.Equal(t, txLen, p.Len())
 }

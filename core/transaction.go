@@ -9,12 +9,12 @@ import (
 
 // Transaction: Estrutura que representa uma transação.
 type Transaction struct {
-	Data []byte // Dados da transação
-
+	Data      []byte            // Dados da transação
 	From      crypto.PublicKey  // Chave pública do remetente
 	Signature *crypto.Signature // Guarda a assinatura digital da transação
 
-	hash types.Hash
+	hash      types.Hash
+	firstSeen int64
 }
 
 func NewTransaction(data []byte) *Transaction {
@@ -53,4 +53,12 @@ func (tx *Transaction) Verify() error {
 	}
 
 	return nil
+}
+
+func (tx *Transaction) SetFirstSeen(t int64) {
+	tx.firstSeen = t
+}
+
+func (tx *Transaction) FirstSeen() int64 {
+	return tx.firstSeen
 }

@@ -12,6 +12,8 @@ import (
 // ServerOpts define as opções do servidor.
 // Transports é uma lista de transportes que o servidor pode usar.
 // Ex: LocalTransport, RemoteTransport
+var defaulBlockTime = 5 * time.Second
+
 type ServerOpts struct {
 	Transports []Trasport
 	BlockTime  time.Duration
@@ -31,6 +33,9 @@ type Server struct {
 // NewServer cria um novo servidor com as opções especificadas.
 // Inicializa os canais rpcChan e quitCh.
 func NewServer(opts ServerOpts) *Server {
+	if opts.BlockTime == time.Duration(0) {
+		opts.BlockTime = defaulBlockTime
+	}
 	return &Server{ // Retorna um ponteiro para a estrutura Server
 		ServerOpts:  opts, // Inicializa as opções do servidor
 		memPool:     NewTxPool(),

@@ -33,14 +33,14 @@ func TestSortTrasactions(t *testing.T) {
 
 	for i := 0; i < txLen; i++ {
 		tx := core.NewTransaction([]byte(strconv.FormatInt(int64(i), 10)))
-		tx.SetFirstSeen(int64(i * rand.Intn(i*1000)))
+		tx.SetFirstSeen(int64(i * rand.Intn(1000)))
 		assert.Nil(t, p.Add(tx))
 	}
 	assert.Equal(t, txLen, p.Len())
 
 	txx := p.Transactions()
 	for i := 0; i < len(txx); i++ {
-		assert.True(t, txx[i].FirstSeen() < txx[i+1].FirstSeen())
+		assert.True(t, txx[i].FirstSeen() <= txx[i+1].FirstSeen())
 	}
 
 }

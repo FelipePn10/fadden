@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/gob"
 	"fmt"
-	"io"
 
 	"github.com/FelipePn10/fadden/crypto"
 
@@ -87,13 +86,13 @@ func (b *Block) Verify() error {
 }
 
 // Encode: Codifica um bloco em um escritor usando um codificador
-func (b *Block) Encode(w io.Writer, enc Encoder[*Block]) error {
-	return enc.Encode(w, b)
+func (b *Block) Encode(enc Encoder[*Block]) error {
+	return enc.Encode(b)
 }
 
 // Decode: Decodifica um bloco de um leitor usando um decodificador
-func (b *Block) Decode(r io.Reader, dec Decoder[*Block]) error {
-	return dec.Decode(r, b)
+func (b *Block) Decode(dec Decoder[*Block]) error {
+	return dec.Decode(b)
 }
 
 // Calcula o hash do bloco e armazena o resultado

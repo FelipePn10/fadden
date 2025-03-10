@@ -17,12 +17,12 @@ import (
 
 // Estrutura que representa uma chave privada.
 type PrivateKey struct {
-	key *ecdsa.PrivateKey
+	Key *ecdsa.PrivateKey
 }
 
 // Estrutura que representa uma chave pública. E usada para verificar assinaturas e derivar endereços.
 type PublicKey struct {
-	key *ecdsa.PublicKey
+	Key *ecdsa.PublicKey
 }
 
 // --- Tanto o Private Key como o Public Key, são estruturas padrões em GO para representar chaves privadas e públicas de criptografia ECDSA. --- //
@@ -30,33 +30,33 @@ type PublicKey struct {
 // Estrutura que representa uma assinatura ECDSA, contendo os valores r e s.
 // Representa uma assinatura digital para validação.
 type Signature struct {
-	r, s *big.Int // big.Int: Representa um número inteiro grande. É usado para armazenar os valores r e s da assinatura.
+	S, R *big.Int // big.Int: Representa um número inteiro grande. É usado para armazenar os valores r e s da assinatura.
 }
 
 // Assina dados usando a chave privada ECDSA.
 // Sign assina um hash (que deve ser o resultado do hash de uma mensagem maior) usando a chave privada, priv. Se o hash for maior que o comprimento de bits da ordem da curva da chave privada, o hash será truncado para esse comprimento. Ele retorna a assinatura como um par de inteiros. A maioria dos aplicativos deve usar [SignASN1] em vez de lidar diretamente com r, s.
 // rand.Reader: Garante que a geração da assinatura seja segura.
 func (k PrivateKey) Sign(data []byte) (*Signature, error) {
-	r, s, err := ecdsa.Sign(rand.Reader, k.key, data) // ecdsa.Sign: Gera os componentes r e s da assinatura.
+	r, s, err := ecdsa.Sign(rand.Reader, k.Key, data) // ecdsa.Sign: Gera os componentes r e s da assinatura.
 	if err != nil {                                   // Verifica se houve algum erro na geração da assinatura.
 		return nil, err
 	}
 
 	return &Signature{ // Retorna a assinatura gerada.
-		r: r,
-		s: s,
+		R: r,
+		S: s,
 	}, nil // Retorna nil para o erro, indicando que a assinatura foi gerada com sucesso.
 }
 
 // Gera uma chave privada ECDSA usando a curva P-256 (secp256r1).
 func GeneratePrivateKey() PrivateKey {
-	key, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader) // elliptic.P256(): Define a curva elíptica usada (NIST P-256). && rand.Reader: Gera números aleatórios seguros.
+	Key, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader) // elliptic.P256(): Define a curva elíptica usada (NIST P-256). && rand.Reader: Gera números aleatórios seguros.
 	if err != nil {
 		panic(err)
 	}
 
 	return PrivateKey{ // Retorna a chave privada gerada.
-		key: key,
+		Key: Key,
 	}
 }
 
@@ -66,7 +66,7 @@ func GeneratePrivateKey() PrivateKey {
 // A chave pública é usada para verificar assinaturas e derivar endereços.
 func (k PrivateKey) PublicKey() PublicKey {
 	return PublicKey{
-		key: &k.key.PublicKey,
+		Key: &k.Key.PublicKey,
 	}
 }
 
@@ -75,7 +75,7 @@ func (k PrivateKey) PublicKey() PublicKey {
 // A chave pública é serializada em um formato compacto (33 bytes) que inclui o prefixo de compressão.
 // O prefixo de compressão é um byte que indica se a chave pública é par ou ímpar.
 func (k PublicKey) ToSlice() []byte {
-	return elliptic.MarshalCompressed(k.key, k.key.X, k.key.Y)
+	return elliptic.MarshalCompressed(k.Key, k.Key.X, k.Key.Y)
 	// elliptic.MarshalCompressed: Converte as coordenadas (x, y) da chave pública em bytes compactos (ex: 0x02 ou 0x03 + coordenada x).
 }
 
@@ -90,5 +90,5 @@ func (k PublicKey) Address() types.Address {
 }
 
 func (sig Signature) Verify(pubKey PublicKey, data []byte) bool { // Verifica se uma assinatura é válida para os dados e chave pública fornecidos.
-	return ecdsa.Verify(pubKey.key, data, sig.r, sig.s) // ecdsa.Verify: Retorna true se a assinatura for válida.
+	return ecdsa.Verify(pubKey.Key, data, sig.R, sig.S) // ecdsa.Verify: Retorna true se a assinatura for válida.
 }

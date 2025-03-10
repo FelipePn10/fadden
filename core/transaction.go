@@ -55,6 +55,14 @@ func (tx *Transaction) Verify() error {
 	return nil
 }
 
+func (tx *Transaction) Decode(dec Decoder[*Transaction]) error {
+	return dec.Decode(tx)
+}
+
+func (tx *Transaction) Encode(enc Encoder[*Transaction]) error {
+	return enc.Encode(tx)
+}
+
 func (tx *Transaction) SetFirstSeen(t int64) {
 	tx.firstSeen = t
 }
